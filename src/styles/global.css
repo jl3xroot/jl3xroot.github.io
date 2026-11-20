@@ -5,20 +5,9 @@
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
-/* Light theme values */
+/* Dark theme fixo - visual terminal verde + preto/grafite */
 :root,
-[data-theme="light"] {
-  --background: #f4f6f8;
-  --foreground: #14181f;
-  --accent: #15803d;
-  --accent-foreground: #ffffff;
-  --muted: #e4e8ee;
-  --muted-foreground: #4b5563;
-  --border: #cbd2dc;
-}
-
-/* Dark theme values - visual terminal verde + preto/cinza */
-:root,
+[data-theme="light"],
 [data-theme="dark"] {
   --background: #0d1015;
   --foreground: #e2e8f0;
@@ -26,7 +15,7 @@
   --accent-foreground: #07130b;
   --muted: #181e28;
   --muted-foreground: #8b95a5;
-  --border: #252d3a;
+  --border: #1d3b28;
 }
 
 @theme inline {
@@ -124,7 +113,7 @@
     }
 
     hr {
-      @apply border-border;
+      border-color: color-mix(in srgb, var(--accent) 40%, transparent);
     }
 
     img {
@@ -221,7 +210,7 @@
       @apply relative inline-block w-full bg-red-500/20 before:absolute before:-left-3 before:text-red-500 before:content-['-'];
     }
     .line.highlighted {
-      @apply inline-block w-full bg-slate-400/20;
+      @apply inline-block w-full bg-green-500/15 border-l-2 border-green-500;
     }
     .highlighted-word {
       @apply border-border rounded-sm border px-0.5 py-px;
