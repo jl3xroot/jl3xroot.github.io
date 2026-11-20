@@ -23,6 +23,11 @@ export function useTranslations(locale: string = "en"): ResolvedStrings {
   return {
     ...t,
     post: { tableOfContents: "Table of contents", ...t.post },
+    pages: {
+      portfolioTitle: "Portfolio",
+      portfolioDesc: "Projects and technical work.",
+      ...t.pages,
+    },
     a11y: { skipTableOfContents: "Skip table of contents", ...t.a11y },
   };
 }
