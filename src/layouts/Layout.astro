@@ -150,40 +150,41 @@ const rssHref = getAssetPath("rss.xml");
         const TYPED_TEXT = " access granted";
         const MS_PER_CHAR = 30;
 
-        if (window.__netopsRafId) {
-          cancelAnimationFrame(window.__netopsRafId);
-          window.__netopsRafId = null;
+        function cleanup() {
+          if (window.__netopsRaf) {
+            cancelAnimationFrame(window.__netopsRaf);
+            window.__netopsRaf = null;
+          }
+          if (Array.isArray(window.__netopsTimeouts)) {
+            while (window.__netopsTimeouts.length) {
+              clearTimeout(window.__netopsTimeouts.pop());
+            }
+          }
+          window.__netopsTimeouts = [];
         }
-        if (window.__netopsTimers) {
-          window.__netopsTimers.forEach(clearTimeout);
-        }
-        window.__netopsTimers = [];
 
-        function addTimer(fn, ms) {
+        function later(fn, ms) {
           const id = setTimeout(fn, ms);
-          window.__netopsTimers.push(id);
+          window.__netopsTimeouts.push(id);
           return id;
         }
 
-        function hideNow() {
+        function closeOverlay() {
           const preloader = document.getElementById("netops-preloader");
           if (!preloader) return;
           preloader.style.opacity = "0";
           preloader.style.pointerEvents = "none";
-          addTimer(() => {
+          later(() => {
             preloader.style.display = "none";
           }, 220);
         }
 
-        function run() {
+        function runSequence() {
+          cleanup();
+
           const preloader = document.getElementById("netops-preloader");
           const banner = document.getElementById("type-banner");
           if (!preloader || !banner) return;
-
-          if (window.__netopsDone) {
-            preloader.style.display = "none";
-            return;
-          }
 
           preloader.style.display = "flex";
           preloader.style.opacity = "1";
@@ -192,15 +193,14 @@ const rssHref = getAssetPath("rss.xml");
 
           if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
             banner.textContent = TYPED_TEXT;
-            window.__netopsDone = true;
-            addTimer(hideNow, 150);
+            later(closeOverlay, 150);
             return;
           }
 
-          const startTime = performance.now();
+          const startedAt = performance.now();
 
-          function tick(now) {
-            const elapsed = now - startTime;
+          function frame(now) {
+            const elapsed = Math.max(0, now - startedAt);
             const count = Math.min(
               TYPED_TEXT.length,
               Math.floor(elapsed / MS_PER_CHAR)
@@ -208,29 +208,32 @@ const rssHref = getAssetPath("rss.xml");
             banner.textContent = TYPED_TEXT.slice(0, count);
 
             if (count < TYPED_TEXT.length) {
-              window.__netopsRafId = requestAnimationFrame(tick);
+              window.__netopsRaf = requestAnimationFrame(frame);
             } else {
-              window.__netopsDone = true;
-              addTimer(hideNow, 220);
+              later(closeOverlay, 220);
             }
           }
 
-          window.__netopsRafId = requestAnimationFrame(tick);
-          addTimer(() => {
-            if (window.__netopsRafId) {
-              cancelAnimationFrame(window.__netopsRafId);
-              window.__netopsRafId = null;
+          window.__netopsRaf = requestAnimationFrame(frame);
+
+          // Fallback garantido caso o rAF não rode por algum motivo
+          later(() => {
+            if (window.__netopsRaf) {
+              cancelAnimationFrame(window.__netopsRaf);
+              window.__netopsRaf = null;
             }
             banner.textContent = TYPED_TEXT;
-            window.__netopsDone = true;
-            hideNow();
-          }, 2200);
+            closeOverlay();
+          }, 1500);
         }
 
+        document.addEventListener("astro:page-load", runSequence);
         if (document.readyState === "loading") {
-          document.addEventListener("DOMContentLoaded", run, { once: true });
+          document.addEventListener("DOMContentLoaded", runSequence, {
+            once: true,
+          });
         } else {
-          run();
+          runSequence();
         }
       })();
     </script>
