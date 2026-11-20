@@ -141,10 +141,13 @@ const rssHref = getAssetPath("rss.xml");
           id="type-banner-wrap"
           class="text-foreground mt-2 font-mono text-xl font-bold tracking-tight sm:text-3xl"
         >
-          <span id="type-banner"></span><span
-            id="cursor-banner"
-            class="bg-accent ml-1 inline-block h-6 w-2.5 animate-pulse align-middle sm:h-7"
-          ></span>
+          <span class="text-accent select-none">&gt;</span><span
+            id="type-banner"
+          ></span><span
+            id="cursor-underscore"
+            class="text-accent animate-pulse font-bold"
+            >_</span
+          >
         </p>
       </div>
     </div>
@@ -153,7 +156,7 @@ const rssHref = getAssetPath("rss.xml");
 
     <script is:inline>
       (function () {
-        const COMMAND_TEXT = "root acess";
+        const TYPED_TEXT = " root acess";
 
         let activeTimer = null;
         let hideTimer = null;
@@ -213,7 +216,7 @@ const rssHref = getAssetPath("rss.xml");
           bannerEl.textContent = "";
 
           if (reducedMotion) {
-            bannerEl.textContent = COMMAND_TEXT;
+            bannerEl.textContent = TYPED_TEXT;
             activeTimer = setTimeout(() => hidePreloader(preloader), 250);
             return;
           }
@@ -224,7 +227,7 @@ const rssHref = getAssetPath("rss.xml");
           }, 3500);
 
           activeTimer = setTimeout(() => {
-            typeString(bannerEl, COMMAND_TEXT, 55, () => {
+            typeString(bannerEl, TYPED_TEXT, 55, () => {
               activeTimer = setTimeout(() => {
                 if (safetyTimer) clearTimeout(safetyTimer);
                 hidePreloader(preloader);
