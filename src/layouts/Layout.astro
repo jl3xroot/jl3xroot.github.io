@@ -79,10 +79,8 @@ const rssHref = getAssetPath("rss.xml");
       href={new URL(rssHref, Astro.site)}
     />
 
-    <!-- Filled at runtime by theme.ts to match the current background colour -->
     <meta name="theme-color" content="rgb(13, 16, 21)" />
 
-    <!-- Extra head content injected by child layouts (e.g. JSON-LD, article meta) -->
     <slot name="head" />
 
     {
@@ -94,9 +92,7 @@ const rssHref = getAssetPath("rss.xml");
       )
     }
 
-    <!--
-      Inline FOUC-prevention script: enforces dark theme before paint.
-    -->
+    <!-- Força dark mode antes da pintura -->
     <script is:inline>
       (function () {
         const theme = "dark";
@@ -138,16 +134,11 @@ const rssHref = getAssetPath("rss.xml");
         </p>
 
         <p
-          id="type-banner-wrap"
           class="text-foreground mt-2 font-mono text-xl font-bold tracking-tight sm:text-3xl"
         >
           <span class="text-accent select-none">&gt;</span><span
             id="type-banner"
-          ></span><span
-            id="cursor-underscore"
-            class="text-accent animate-pulse font-bold"
-            >_</span
-          >
+          ></span><span class="text-accent animate-pulse font-bold">_</span>
         </p>
       </div>
     </div>
@@ -157,92 +148,89 @@ const rssHref = getAssetPath("rss.xml");
     <script is:inline>
       (function () {
         const TYPED_TEXT = " access granted";
+        const MS_PER_CHAR = 30;
 
-        let activeTimer = null;
-        let hideTimer = null;
-        let safetyTimer = null;
+        if (window.__netopsRafId) {
+          cancelAnimationFrame(window.__netopsRafId);
+          window.__netopsRafId = null;
+        }
+        if (window.__netopsTimers) {
+          window.__netopsTimers.forEach(clearTimeout);
+        }
+        window.__netopsTimers = [];
 
-        function clearAllTimers() {
-          if (activeTimer) clearTimeout(activeTimer);
-          if (hideTimer) clearTimeout(hideTimer);
-          if (safetyTimer) clearTimeout(safetyTimer);
-          activeTimer = null;
-          hideTimer = null;
-          safetyTimer = null;
+        function addTimer(fn, ms) {
+          const id = setTimeout(fn, ms);
+          window.__netopsTimers.push(id);
+          return id;
         }
 
-        function hidePreloader(preloader) {
-          if (!preloader) return;
-          preloader.classList.add("opacity-0", "pointer-events-none");
-          hideTimer = setTimeout(() => {
-            preloader.classList.add("hidden");
-          }, 200);
-        }
-
-        function typeString(el, text, speed, onDone) {
-          let i = 0;
-          el.textContent = "";
-
-          function step() {
-            if (i < text.length) {
-              el.textContent += text.charAt(i);
-              i += 1;
-              activeTimer = setTimeout(step, speed);
-            } else if (onDone) {
-              onDone();
-            }
-          }
-
-          step();
-        }
-
-        function runPreloader() {
-          clearAllTimers();
-
+        function hideNow() {
           const preloader = document.getElementById("netops-preloader");
-          const bannerEl = document.getElementById("type-banner");
+          if (!preloader) return;
+          preloader.style.opacity = "0";
+          preloader.style.pointerEvents = "none";
+          addTimer(() => {
+            preloader.style.display = "none";
+          }, 220);
+        }
 
-          if (!preloader || !bannerEl) return;
+        function run() {
+          const preloader = document.getElementById("netops-preloader");
+          const banner = document.getElementById("type-banner");
+          if (!preloader || !banner) return;
 
-          const reducedMotion = window.matchMedia(
-            "(prefers-reduced-motion: reduce)"
-          ).matches;
-
-          preloader.classList.remove(
-            "hidden",
-            "opacity-0",
-            "pointer-events-none"
-          );
-          bannerEl.textContent = "";
-
-          if (reducedMotion) {
-            bannerEl.textContent = TYPED_TEXT;
-            activeTimer = setTimeout(() => hidePreloader(preloader), 150);
+          if (window.__netopsDone) {
+            preloader.style.display = "none";
             return;
           }
 
-          safetyTimer = setTimeout(() => {
-            clearAllTimers();
-            hidePreloader(preloader);
-          }, 2200);
+          preloader.style.display = "flex";
+          preloader.style.opacity = "1";
+          preloader.style.pointerEvents = "auto";
+          banner.textContent = "";
 
-          activeTimer = setTimeout(() => {
-            typeString(bannerEl, TYPED_TEXT, 28, () => {
-              activeTimer = setTimeout(() => {
-                if (safetyTimer) clearTimeout(safetyTimer);
-                hidePreloader(preloader);
-              }, 200);
-            });
-          }, 100);
+          if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            banner.textContent = TYPED_TEXT;
+            window.__netopsDone = true;
+            addTimer(hideNow, 150);
+            return;
+          }
+
+          const startTime = performance.now();
+
+          function tick(now) {
+            const elapsed = now - startTime;
+            const count = Math.min(
+              TYPED_TEXT.length,
+              Math.floor(elapsed / MS_PER_CHAR)
+            );
+            banner.textContent = TYPED_TEXT.slice(0, count);
+
+            if (count < TYPED_TEXT.length) {
+              window.__netopsRafId = requestAnimationFrame(tick);
+            } else {
+              window.__netopsDone = true;
+              addTimer(hideNow, 220);
+            }
+          }
+
+          window.__netopsRafId = requestAnimationFrame(tick);
+          addTimer(() => {
+            if (window.__netopsRafId) {
+              cancelAnimationFrame(window.__netopsRafId);
+              window.__netopsRafId = null;
+            }
+            banner.textContent = TYPED_TEXT;
+            window.__netopsDone = true;
+            hideNow();
+          }, 2200);
         }
 
-        document.addEventListener("astro:page-load", runPreloader);
-        if (document.readyState !== "loading") {
-          runPreloader();
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", run, { once: true });
         } else {
-          document.addEventListener("DOMContentLoaded", runPreloader, {
-            once: true,
-          });
+          run();
         }
       })();
     </script>
