@@ -8,24 +8,25 @@
 /* Light theme values */
 :root,
 [data-theme="light"] {
-  --background: #f8fafc;
-  --foreground: #1e293b;
-  --accent: #0f766e;
+  --background: #f4f6f8;
+  --foreground: #14181f;
+  --accent: #15803d;
   --accent-foreground: #ffffff;
-  --muted: #e2e8f0;
-  --muted-foreground: #475569;
-  --border: #cbd5e1;
+  --muted: #e4e8ee;
+  --muted-foreground: #4b5563;
+  --border: #cbd2dc;
 }
 
-/* Dark theme values - visual NetOps / terminal da referência */
+/* Dark theme values - visual terminal verde + preto/cinza */
+:root,
 [data-theme="dark"] {
-  --background: #111622;
-  --foreground: #e6edf3;
-  --accent: #ff6b01;
-  --accent-foreground: #ffffff;
-  --muted: #1b2436;
-  --muted-foreground: #94a3b8;
-  --border: #263248;
+  --background: #0d1015;
+  --foreground: #e2e8f0;
+  --accent: #22c55e;
+  --accent-foreground: #07130b;
+  --muted: #181e28;
+  --muted-foreground: #8b95a5;
+  --border: #252d3a;
 }
 
 @theme inline {
@@ -48,6 +49,8 @@
 
   html,
   body {
+    background-color: var(--background) !important;
+    color: var(--foreground) !important;
     font-family: var(--font-app), "Google Sans Code", "Courier New", monospace;
   }
 
@@ -95,7 +98,7 @@
     }
 
     h3 {
-      @apply italic;
+      @apply italic text-accent;
     }
 
     p,
@@ -109,7 +112,7 @@
     }
 
     a {
-      @apply text-foreground hover:text-accent wrap-break-word decoration-dashed underline-offset-4 focus-visible:no-underline;
+      @apply text-accent hover:opacity-85 wrap-break-word decoration-dashed underline-offset-4 focus-visible:no-underline;
     }
 
     ul {
@@ -175,11 +178,11 @@
     }
 
     code {
-      @apply bg-muted/75 text-foreground rounded p-1 wrap-break-word before:content-none after:content-none;
+      @apply bg-muted/85 text-accent rounded p-1 wrap-break-word before:content-none after:content-none;
     }
 
     .astro-code code {
-      @apply flex-[1_0_100%] bg-inherit p-0;
+      @apply flex-[1_0_100%] bg-inherit p-0 text-foreground;
     }
 
     blockquote {
