@@ -87,28 +87,6 @@ const homePath = getRelativeLocaleUrl(locale, "");
       }
     </section>
 
-    <div class="sm:flex sm:min-h-0 sm:flex-1 sm:flex-col sm:justify-evenly sm:overflow-hidden sm:py-1">
-      {
-        featuredPosts.length > 0 && (
-          <section
-            id="featured"
-            class:list={[
-              "py-5 sm:min-h-0 sm:py-1.5",
-              { "border-border border-b": recentPosts.length > 0 },
-            ]}
-          >
-            <h2 class="text-lg font-semibold tracking-wide sm:text-xl">
-              {t.home.featured}
-            </h2>
-            <ul class="mt-2 sm:mt-1 [&>li]:my-1.5 sm:[&>li]:my-1 [&>li>a]:py-1">
-              {featuredPosts.slice(0, 1).map(data => (
-                <Card variant="h3" {...data} />
-              ))}
-            </ul>
-          </section>
-        )
-      }
-
       {
         recentPosts.length > 0 && (
           <section id="recent-posts" class="py-5 sm:min-h-0 sm:py-1.5">
