@@ -5,7 +5,7 @@ ogImage: "/default-og.jpg"
 ---
 ![jl3x | NetOps & Sec](/default-og.jpg)
 
-Sou **jl3x**, formado em Análise e Desenvolvimento de Sistemas (ADS), com foco em **NetOps, infraestrutura de redes, observabilidade, automação e segurança da informação**.
+Sou **Jhonatan**, formado em Análise e Desenvolvimento de Sistemas (ADS), com foco em **NetOps, infraestrutura de redes, observabilidade, automação e segurança da informação**.
 
 Aqui registro write-ups técnicos, notas de laboratório, troubleshooting em rede e scripts/automações do dia a dia.
 
