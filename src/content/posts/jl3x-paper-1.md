@@ -5,7 +5,6 @@ pubDatetime: 2026-11-20T14:00:00-03:00
 featured: false
 draft: false
 ---
-A Internet — e como vim parar aqui
 
 Hoje o mundo é movido pela internet. Ela se tornou a principal infraestrutura da vida moderna e a base de praticamente tudo o que fazemos.
 
