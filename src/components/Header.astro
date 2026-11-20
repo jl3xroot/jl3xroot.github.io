@@ -48,9 +48,20 @@ const isActive = (path: string) => {
   >
     <a
       href={getRelativeLocaleUrl(locale, "")}
-      class="absolute py-1 text-xl leading-8 font-semibold whitespace-nowrap sm:static sm:my-auto sm:text-2xl sm:leading-none"
+      class="font-mono absolute py-1 text-xl leading-8 font-semibold tracking-tight whitespace-nowrap sm:static sm:my-auto sm:text-2xl sm:leading-none"
     >
-      {site.title}
+      {
+        site.title === ">_ jl3x" ? (
+          <>
+            <span class="text-emerald-500">&gt;_</span>{" "}
+            <span>
+              jl<span class="text-emerald-500">3</span>x
+            </span>
+          </>
+        ) : (
+          site.title
+        )
+      }
     </a>
     <nav
       id="nav-menu"
@@ -85,7 +96,7 @@ const isActive = (path: string) => {
             href={getRelativeLocaleUrl(locale, "portfolio")}
             class:list={{ "active-nav": isActive("/portfolio") }}
           >
-            {t.nav.portfolio ?? "Portfólio"}
+            {t.nav.portfolio}
           </a>
         </li>
         <li class="col-span-2">
