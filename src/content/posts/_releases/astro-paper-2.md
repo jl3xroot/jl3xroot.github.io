@@ -1,89 +1,27 @@
 ---
-author: Sat Naing
-pubDatetime: 2023-01-30T15:57:52.737Z
-title: AstroPaper 2.0
-slug: astro-paper-2
+title: "A Internet — e como vim parar aqui"
+description: "Um pouco da minha história com internet e como vim parar aqui."
+pubDatetime: 2026-11-20T14:00:00-03:00
 featured: false
-ogImage: https://user-images.githubusercontent.com/53733092/215771435-25408246-2309-4f8b-a781-1f3d93bdf0ec.png
-tags:
-  - release
-description: AstroPaper with the enhancements of Astro v2. Type-safe markdown contents, bug fixes and better dev experience etc.
+draft: false
 ---
+A Internet — e como vim parar aqui
 
-Astro 2.0 has been released with some cool features, breaking changes, DX improvements, better error overlay and so on. AstroPaper takes advantage of those cool features, especially Content Collections API.
+Hoje o mundo é movido pela internet. Ela se tornou a principal infraestrutura da vida moderna e a base de praticamente tudo o que fazemos.
 
-<!-- ![Introducing AstroPaper 2.0](https://user-images.githubusercontent.com/53733092/215683840-dc2502f5-8c5a-44f0-a26c-4e7180455056.png) -->
+Mas a minha história com ela começou bem longe dos data centers e das configurações de rede. Foi por volta de 2009, na época do Orkut, do MSN e das lan houses. Sentado em uma cadeira de escritório barulhenta, de frente para um monitor de tubo e um gabinete bege clássico, eu descobri um universo novo. A conexão era lenta e os sites mal otimizados, mas o entusiasmo de explorar aquilo era único.
 
-![Introducing AstroPaper 2.0](https://user-images.githubusercontent.com/53733092/215771435-25408246-2309-4f8b-a781-1f3d93bdf0ec.png)
+Em quase duas décadas, vi a web evoluir de páginas simples para o domínio das big techs, o surgimento do Bitcoin e a explosão das IAs. Minha trajetória até aqui também teve seus desvios: comecei estudando uma área na qual não vi paixão nem propósito. Foi quando decidi buscar uma formação generalista em tecnologia para enxergar todos os caminhos possíveis.
 
-## Features & Changes
+Passei por desenvolvimento web, design e hardware, até me encontrar na infraestrutura de redes, monitoramento e, agora, nos estudos de cibersegurança. Resolvi criar este espaço justamente para compartilhar o que aprendi — e continuo aprendendo — nessa jornada.
 
-### Type-safe Frontmatters and Redefined Blog Schema
+E o que é a internet, na prática?
+O próprio nome já entrega: interconnected networks (redes interconectadas). Grosso modo, ela é uma gigantesca rede formada por milhares de outras redes conectadas fisicamente entre si.
 
-Frontmatter of AstroPaper 2.0 markdown contents are now type-safe thanks to Astro’s Content Collections. Blog schema is defined inside the `src/content/_schemas.ts` file.
+Mas não basta ligar um cabo do ponto A ao ponto B. Essa estrutura cruza continentes e oceanos por meio de cabos submarinos de fibra óptica e cobre, e só funciona porque existem protocolos — uma espécie de língua universal que permite que equipamentos e redes diferentes se entendam.
 
-### New Home for Blog contents
+Vivemos em um mundo hiperconectado e dependente dessa engenharia invisível. A tecnologia é uma ferramenta extraordinária quando bem utilizada, mas também cobra seu preço na nossa atenção e saúde mental.
 
-All the blog posts were moved from `src/contents` to `src/content/blog` directory.
+Por isso, enquanto exploramos esse universo digital por aqui, fica o lembrete: beba água, exercite-se, crie hábitos longe das telas e aproveite quem está ao seu lado. A vida real acontece agora.
 
-### New Fetch API
-
-Contents are now fetched with `getCollection` function. No relative path to the content needs to be specified anymore.
-
-```ts
-// old content fetching method
-- const postImportResult = import.meta.glob<MarkdownInstance<Frontmatter>>(
-  "../contents/**/**/*.md",);
-
-// new content fetching method
-+ const postImportResult = await getCollection("blog");
-```
-
-### Modified Search Logic for better Search Result
-
-In the older version of AstroPaper, when someone search some article, the search criteria keys that will be searched are `title`, `description` and `headings` (heading means all the headings h1 ~ h6 of the blog post). In AstroPaper v2, only `title` and `description` will be searched as the user types.
-
-### Renamed Frontmatter Properties
-
-The following frontmatter properties are renamed.
-
-| Old Names | New Names   |
-| --------- | ----------- |
-| datetime  | pubDatetime |
-| slug      | postSlug    |
-
-### Default Tag for blog post
-
-If a blog post doesn't have any tag (in other words, frontmatter property `tags` is not specified), the default tag `others` will be used for that blog post. But you can set the default tag in the `/src/content/_schemas.ts` file.
-
-```ts
-// src/contents/_schemas.ts
-export const blogSchema = z.object({
-  // ---
-  // replace "others" with whatever you want
-  tags: z.array(z.string()).default(["others"]),
-  ogImage: z.string().optional(),
-  description: z.string(),
-});
-```
-
-### New Predefined Dark Color Scheme
-
-AstroPaper v2 has a new dark color scheme (high contrast & low contrast) which is based on Astro's dark logo. Check out [this link](https://astro-paper.pages.dev/posts/predefined-color-schemes#astro-dark) for more info.
-
-![New Predefined Dark Color Scheme](https://user-images.githubusercontent.com/53733092/215680520-59427bb0-f4cb-48c0-bccc-f182a428d72d.svg)
-
-### Automatic Class Sorting
-
-AstroPaper 2.0 includes automatic class sorting with [TailwindCSS Prettier plugin](https://tailwindcss.com/blog/automatic-class-sorting-with-prettier)
-
-### Updated Docs & README
-
-All the [#docs](https://astro-paper.pages.dev/tags/docs/) blog posts and [README](https://github.com/satnaing/astro-paper#readme) are updated for this AstroPaper v2.
-
-## Bug Fixes
-
-- fix broken tags in the Blog Post page
-- in a tag page, the last part of the breadcrumb is now updated to lower-case for consistency
-- exclude draft posts in a tag page
-- fix 'onChange value not updating issue' after a page reload
+Onde você pretende publicar esse texto? (LinkedIn, Instagram, blog próprio?) Dependendo da plataforma, dá para ajustar ainda mais o tamanho dos blocos e o fechamento para gerar comentários.
