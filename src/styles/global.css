@@ -43,11 +43,13 @@
     font-family: var(--font-app), "Google Sans Code", "Courier New", monospace;
   }
 
-  /* Bloqueia o scroll apenas na página index */
-  html:has(#main-content[data-layout="index"]),
-  html:has(#main-content[data-layout="index"]) body {
-    overflow: hidden !important;
-    height: 100dvh;
+  /* Bloqueia o scroll apenas no index em telas desktop (>= 640px) */
+  @media (min-width: 640px) {
+    html:has(#main-content[data-layout="index"]),
+    html:has(#main-content[data-layout="index"]) body {
+      overflow: hidden !important;
+      height: 100dvh;
+    }
   }
 
   a,
