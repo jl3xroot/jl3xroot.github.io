@@ -3,7 +3,7 @@ import { defineAstroPaperConfig } from "./src/types/config";
 export default defineAstroPaperConfig({
   site: {
     url: "https://jl3xroot.github.io/",
-    title: "jl3x | NetOps & Sec",
+    title: ">_ jl3x",
     description: "Write-ups técnicos, arquitetura de redes ISP, monitoramento, automação e estudos práticos em cibersegurança.",
     author: "jl3x",
     profile: "https://github.com/jl3xroot",
