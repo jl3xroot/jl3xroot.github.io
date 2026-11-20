@@ -1,6 +1,7 @@
 ---
 title: "Sobre"
 description: "NetOps, infraestrutura de redes, monitoramento, automação e cibersegurança."
+ogImage: "/default-og.jpg"
 ---
 
 Sou **jl3x**, formado em Análise e Desenvolvimento de Sistemas (ADS), com foco em **NetOps, infraestrutura de redes, observabilidade, automação e segurança da informação**.
