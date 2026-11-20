@@ -29,7 +29,8 @@ export const GET: APIRoute = async context => {
       type: "div",
       props: {
         style: {
-          background: "#fefbfb",
+          background: "#0d1015",
+          color: "#e2e8f0",
           width: "100%",
           height: "100%",
           display: "flex",
@@ -46,10 +47,10 @@ export const GET: APIRoute = async context => {
                 top: "-1px",
                 right: "-1px",
                 boxSizing: "border-box",
-                border: "4px solid #000",
-                background: "#ecebeb",
-                opacity: "0.9",
-                borderRadius: "4px",
+                border: "3px solid #22c55e",
+                background: "#111620",
+                opacity: "0.75",
+                borderRadius: "6px",
                 display: "flex",
                 justifyContent: "center",
                 margin: "2.5rem",
@@ -64,9 +65,9 @@ export const GET: APIRoute = async context => {
               style: {
                 position: "relative",
                 boxSizing: "border-box",
-                border: "4px solid #000",
-                background: "#fefbfb",
-                borderRadius: "4px",
+                border: "3px solid #22c55e",
+                background: "#141923",
+                borderRadius: "6px",
                 display: "flex",
                 justifyContent: "center",
                 margin: "2rem",
@@ -80,7 +81,7 @@ export const GET: APIRoute = async context => {
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "space-between",
-                    margin: "20px",
+                    margin: "24px",
                     width: "90%",
                     height: "90%",
                   },
@@ -92,29 +93,47 @@ export const GET: APIRoute = async context => {
                           display: "flex",
                           flexDirection: "column",
                           justifyContent: "center",
-                          alignItems: "center",
+                          alignItems: "flex-start",
                           height: "90%",
                           maxHeight: "90%",
                           overflow: "hidden",
-                          textAlign: "center",
+                          textAlign: "left",
                         },
                         children: [
                           {
                             type: "p",
                             props: {
                               style: {
-                                fontSize: 72,
-                                fontWeight: "bold",
-                                margin: "0 0 31px",
+                                fontSize: 24,
+                                color: "#22c55e",
+                                margin: "0 0 12px",
                                 width: "100%",
                               },
-                              children: config.site.title,
+                              children: "jl3x@netops:~$ cat identity.txt",
                             },
                           },
                           {
                             type: "p",
                             props: {
-                              style: { fontSize: 28, margin: 0, width: "100%" },
+                              style: {
+                                fontSize: 64,
+                                fontWeight: "bold",
+                                color: "#f8fafc",
+                                margin: "0 0 22px",
+                                width: "100%",
+                              },
+                              children: `>_ ${config.site.title}`,
+                            },
+                          },
+                          {
+                            type: "p",
+                            props: {
+                              style: {
+                                fontSize: 28,
+                                color: "#94a3b8",
+                                margin: 0,
+                                width: "100%",
+                              },
                               children: config.site.description,
                             },
                           },
@@ -126,18 +145,34 @@ export const GET: APIRoute = async context => {
                       props: {
                         style: {
                           display: "flex",
-                          justifyContent: "flex-end",
+                          justifyContent: "space-between",
+                          alignItems: "center",
                           width: "100%",
                           marginBottom: "8px",
-                          fontSize: 28,
+                          fontSize: 24,
+                          color: "#22c55e",
                         },
-                        children: {
-                          type: "span",
-                          props: {
-                            style: { overflow: "hidden", fontWeight: "bold" },
-                            children: new URL(config.site.url).hostname,
+                        children: [
+                          {
+                            type: "span",
+                            props: {
+                              style: { fontSize: 22 },
+                              children:
+                                "Redes • Observabilidade • Automação • Sec",
+                            },
                           },
-                        },
+                          {
+                            type: "span",
+                            props: {
+                              style: {
+                                overflow: "hidden",
+                                fontWeight: "bold",
+                                color: "#e2e8f0",
+                              },
+                              children: new URL(config.site.url).hostname,
+                            },
+                          },
+                        ],
                       },
                     },
                   ],
