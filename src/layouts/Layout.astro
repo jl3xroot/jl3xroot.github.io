@@ -32,7 +32,8 @@ const rssHref = getAssetPath("rss.xml");
 <html
   dir={site.dir ?? "ltr"}
   lang={Astro.currentLocale ?? site.lang}
-  class="overflow-y-scroll scroll-smooth"
+  class="dark overflow-y-scroll scroll-smooth"
+  data-theme="dark"
 >
   <head>
     <meta charset="UTF-8" />
@@ -79,7 +80,7 @@ const rssHref = getAssetPath("rss.xml");
     />
 
     <!-- Filled at runtime by theme.ts to match the current background colour -->
-    <meta name="theme-color" content="" />
+    <meta name="theme-color" content="rgb(13, 16, 21)" />
 
     <!-- Extra head content injected by child layouts (e.g. JSON-LD, article meta) -->
     <slot name="head" />
@@ -94,20 +95,17 @@ const rssHref = getAssetPath("rss.xml");
     }
 
     <!--
-      Inline FOUC-prevention script: sets data-theme on <html> before
-      the browser paints. Runs synchronously, no defer/async.
+      Inline FOUC-prevention script: enforces dark theme before paint.
     -->
     <script is:inline>
       (function () {
-        const stored = localStorage.getItem("theme");
-        const prefersDark = window.matchMedia(
-          "(prefers-color-scheme: dark)"
-        ).matches;
-        const theme = stored ?? (prefersDark ? "dark" : "light");
-        const root = document.firstElementChild;
-        root?.setAttribute("data-theme", theme);
-        root?.classList.toggle("dark", theme === "dark");
-        // Expose value so theme.ts can skip re-detection.
+        const theme = "dark";
+        try {
+          localStorage.setItem("theme", theme);
+        } catch {}
+        const root = document.documentElement;
+        root.setAttribute("data-theme", theme);
+        root.classList.add("dark");
         window.__theme = { value: theme };
       })();
     </script>
@@ -119,7 +117,155 @@ const rssHref = getAssetPath("rss.xml");
   <body
     class="bg-background font-app text-foreground selection:bg-accent/75 selection:text-accent-foreground flex min-h-svh flex-col"
   >
+    <div
+      id="netops-preloader"
+      aria-hidden="true"
+      class="bg-background fixed inset-0 z-50 flex items-center justify-center px-4 transition-opacity duration-300"
+    >
+      <div
+        class="border-border bg-muted/80 w-full max-w-lg rounded-md border p-5 shadow-lg sm:p-6"
+      >
+        <div
+          class="border-border/60 text-muted-foreground mb-3 flex items-center gap-2 border-b pb-2 text-xs"
+        >
+          <span class="bg-accent/80 inline-block h-2.5 w-2.5 rounded-full"
+          ></span>
+          <span>tty1 — boot sequence</span>
+        </div>
+
+        <p class="text-accent font-mono text-sm font-medium sm:text-base">
+          <span id="type-prompt"></span><span
+            id="cursor-prompt"
+            class="bg-accent ml-0.5 inline-block h-4 w-2 animate-pulse align-middle"
+          ></span>
+        </p>
+
+        <p
+          id="type-banner-wrap"
+          class="text-foreground mt-2 hidden font-mono text-xl font-bold tracking-tight sm:text-3xl"
+        >
+          <span id="type-banner"></span><span
+            id="cursor-banner"
+            class="bg-accent ml-1 inline-block h-6 w-2.5 animate-pulse align-middle sm:h-7"
+          ></span>
+        </p>
+      </div>
+    </div>
+
     <slot />
+
+    <script is:inline>
+      (function () {
+        const PROMPT_TEXT = "jl3x@netops:~$";
+        const BANNER_TEXT = ">_ jl3x | NetOps & Sec";
+
+        let activeTimer = null;
+        let hideTimer = null;
+        let safetyTimer = null;
+
+        function clearAllTimers() {
+          if (activeTimer) clearTimeout(activeTimer);
+          if (hideTimer) clearTimeout(hideTimer);
+          if (safetyTimer) clearTimeout(safetyTimer);
+          activeTimer = null;
+          hideTimer = null;
+          safetyTimer = null;
+        }
+
+        function hidePreloader(preloader) {
+          if (!preloader) return;
+          preloader.classList.add("opacity-0", "pointer-events-none");
+          hideTimer = setTimeout(() => {
+            preloader.classList.add("hidden");
+          }, 320);
+        }
+
+        function typeString(el, text, speed, onDone) {
+          let i = 0;
+          el.textContent = "";
+
+          function step() {
+            if (i < text.length) {
+              el.textContent += text.charAt(i);
+              i += 1;
+              activeTimer = setTimeout(step, speed);
+            } else if (onDone) {
+              onDone();
+            }
+          }
+
+          step();
+        }
+
+        function runPreloader() {
+          clearAllTimers();
+
+          const preloader = document.getElementById("netops-preloader");
+          const promptEl = document.getElementById("type-prompt");
+          const bannerWrap = document.getElementById("type-banner-wrap");
+          const bannerEl = document.getElementById("type-banner");
+          const cursorPrompt = document.getElementById("cursor-prompt");
+          const cursorBanner = document.getElementById("cursor-banner");
+
+          if (!preloader || !promptEl || !bannerWrap || !bannerEl) return;
+
+          const reducedMotion = window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+          ).matches;
+
+          preloader.classList.remove(
+            "hidden",
+            "opacity-0",
+            "pointer-events-none"
+          );
+          promptEl.textContent = "";
+          bannerEl.textContent = "";
+          bannerWrap.classList.add("hidden");
+          cursorPrompt?.classList.remove("hidden");
+          cursorBanner?.classList.add("hidden");
+
+          if (reducedMotion) {
+            promptEl.textContent = PROMPT_TEXT;
+            bannerWrap.classList.remove("hidden");
+            bannerEl.textContent = BANNER_TEXT;
+            cursorPrompt?.classList.add("hidden");
+            cursorBanner?.classList.remove("hidden");
+            activeTimer = setTimeout(() => hidePreloader(preloader), 250);
+            return;
+          }
+
+          safetyTimer = setTimeout(() => {
+            clearAllTimers();
+            hidePreloader(preloader);
+          }, 4000);
+
+          typeString(promptEl, PROMPT_TEXT, 55, () => {
+            activeTimer = setTimeout(() => {
+              cursorPrompt?.classList.add("hidden");
+              bannerWrap.classList.remove("hidden");
+              cursorBanner?.classList.remove("hidden");
+
+              typeString(bannerEl, BANNER_TEXT, 45, () => {
+                activeTimer = setTimeout(() => {
+                  if (safetyTimer) clearTimeout(safetyTimer);
+                  hidePreloader(preloader);
+                }, 450);
+              });
+            }, 220);
+          });
+        }
+
+        document.addEventListener("astro:page-load", runPreloader);
+        if (document.readyState !== "loading") {
+          runPreloader();
+        } else {
+          document.addEventListener("DOMContentLoaded", runPreloader, {
+            once: true,
+          });
+        }
+      })();
+    </script>
+
     <script>
       import "@/scripts/theme";
     </script>
