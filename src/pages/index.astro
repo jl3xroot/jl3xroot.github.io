@@ -20,7 +20,6 @@ const t = useTranslations(locale);
 
 const posts = await getCollection("posts");
 const sortedPosts = getSortedPosts(posts);
-const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
 const homePath = getRelativeLocaleUrl(locale, "");
 ---
@@ -87,21 +86,20 @@ const homePath = getRelativeLocaleUrl(locale, "");
       }
     </section>
 
-      {
-        recentPosts.length > 0 && (
-          <section id="recent-posts" class="py-5 sm:min-h-0 sm:py-1.5">
-            <h2 class="text-lg font-semibold tracking-wide sm:text-xl">
-              {t.home.recentPosts}
-            </h2>
-            <ul class="mt-2 sm:mt-1 [&>li]:my-1.5 sm:[&>li]:my-1 [&>li>a]:py-1">
-              {recentPosts.slice(0, 2).map(data => (
-                <Card variant="h3" {...data} />
-              ))}
-            </ul>
-          </section>
-        )
-      }
-    </div>
+    {
+      recentPosts.length > 0 && (
+        <section id="recent-posts" class="py-5 sm:min-h-0 sm:py-1.5">
+          <h2 class="text-lg font-semibold tracking-wide sm:text-xl">
+            {t.home.recentPosts}
+          </h2>
+          <ul class="mt-2 sm:mt-1 [&>li]:my-1.5 sm:[&>li]:my-1 [&>li>a]:py-1">
+            {recentPosts.slice(0, 2).map(data => (
+              <Card variant="h3" {...data} />
+            ))}
+          </ul>
+        </section>
+      )
+    }
 
     <div class="shrink-0 pt-2 pb-4 text-center sm:pt-1.5 sm:pb-1">
       <LinkButton
