@@ -120,7 +120,7 @@ const rssHref = getAssetPath("rss.xml");
     <div
       id="netops-preloader"
       aria-hidden="true"
-      class="bg-background fixed inset-0 z-50 flex items-center justify-center px-4 transition-opacity duration-300"
+      class="bg-background fixed inset-0 z-50 flex items-center justify-center px-4 transition-opacity duration-200"
     >
       <div
         class="border-border bg-muted/80 w-full max-w-lg rounded-md border p-5 shadow-lg sm:p-6"
@@ -156,7 +156,7 @@ const rssHref = getAssetPath("rss.xml");
 
     <script is:inline>
       (function () {
-        const TYPED_TEXT = " ssh root@jl3x.netops";
+        const TYPED_TEXT = " access granted";
 
         let activeTimer = null;
         let hideTimer = null;
@@ -176,7 +176,7 @@ const rssHref = getAssetPath("rss.xml");
           preloader.classList.add("opacity-0", "pointer-events-none");
           hideTimer = setTimeout(() => {
             preloader.classList.add("hidden");
-          }, 320);
+          }, 200);
         }
 
         function typeString(el, text, speed, onDone) {
@@ -217,23 +217,23 @@ const rssHref = getAssetPath("rss.xml");
 
           if (reducedMotion) {
             bannerEl.textContent = TYPED_TEXT;
-            activeTimer = setTimeout(() => hidePreloader(preloader), 250);
+            activeTimer = setTimeout(() => hidePreloader(preloader), 150);
             return;
           }
 
           safetyTimer = setTimeout(() => {
             clearAllTimers();
             hidePreloader(preloader);
-          }, 3500);
+          }, 2200);
 
           activeTimer = setTimeout(() => {
-            typeString(bannerEl, TYPED_TEXT, 55, () => {
+            typeString(bannerEl, TYPED_TEXT, 28, () => {
               activeTimer = setTimeout(() => {
                 if (safetyTimer) clearTimeout(safetyTimer);
                 hidePreloader(preloader);
-              }, 450);
+              }, 200);
             });
-          }, 200);
+          }, 100);
         }
 
         document.addEventListener("astro:page-load", runPreloader);
