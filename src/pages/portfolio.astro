@@ -1,0 +1,32 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import Main from "@/components/Main.astro";
+import Footer from "@/components/Footer.astro";
+import config from "@/config";
+---
+
+<Layout title={`Portfólio | ${config.site.title}`}>
+  <Header />
+
+  <Breadcrumb />
+
+  <Main
+    pageTitle="Portfólio"
+    pageDesc="Projetos, laboratórios e soluções desenvolvidas na área de redes, infraestrutura e sistemas."
+  >
+    <div class="space-y-6">
+      <div class="border-border bg-muted/40 rounded-md border p-5">
+        <h2 class="text-accent font-mono text-lg font-bold">
+          Projeto 01 — Nome do Projeto
+        </h2>
+        <p class="text-foreground/90 mt-2 text-sm">
+          Descrição rápida do problema resolvido, tecnologias usadas e resultados.
+        </p>
+      </div>
+    </div>
+  </Main>
+
+  <Footer />
+</Layout>
