@@ -9,19 +9,8 @@
   --font-app: var(--font-google-sans-code);
 }
 
-/* Light theme values */
 :root,
-[data-theme="light"] {
-  --background: #f4f6f8;
-  --foreground: #14181f;
-  --accent: #15803d;
-  --accent-foreground: #ffffff;
-  --muted: #e4e8ee;
-  --muted-foreground: #4b5563;
-  --border: #cbd2dc;
-}
-
-/* Dark theme values - visual terminal verde + preto/grafite */
+[data-theme="light"],
 [data-theme="dark"] {
   --background: #0d1015;
   --foreground: #e2e8f0;
@@ -29,5 +18,5 @@
   --accent-foreground: #07130b;
   --muted: #181e28;
   --muted-foreground: #8b95a5;
-  --border: #252d3a;
+  --border: #1d3b28;
 }
