@@ -3,8 +3,8 @@ import { defineAstroPaperConfig } from "./src/types/config";
 export default defineAstroPaperConfig({
   site: {
     url: "https://jl3xroot.github.io/",
-    title: "jl3x | NetOps & Security",
-    description: "Write-ups técnicos, arquitetura de redes ISP, monitorament, automação e estudos práticos em cibersegurança.",
+    title: "jl3x | NetOps & Sec",
+    description: "Write-ups técnicos, arquitetura de redes ISP, monitoramento, automação e estudos práticos em cibersegurança.",
     author: "jl3x",
     profile: "https://github.com/jl3xroot",
     ogImage: "default-og.jpg",
@@ -23,19 +23,16 @@ export default defineAstroPaperConfig({
     showBackButton: true,
     editPost: {
       enabled: true,
-      url: "https://github.com/satnaing/astro-paper/edit/main/",
+      url: "https://github.com/jl3xroot/jl3xroot.github.io/edit/main/",
     },
     search: "pagefind",
     toc: true,
   },
   socials: [
-    { name: "github",   url: "https://github.com/satnaing/astro-paper" },
-    { name: "x",        url: "https://x.com/username" },
-    { name: "linkedin", url: "https://www.linkedin.com/in/username/" },
-    { name: "mail",     url: "mailto:yourmail@gmail.com" },
+    { name: "github",   url: "https://github.com/jl3xroot" },
+    { name: "mail",     url: "mailto:jhonatancorreit@gmail.com" },
   ],
   shareLinks: [
-    { name: "whatsapp", url: "https://wa.me/?text=" },
     { name: "facebook", url: "https://www.facebook.com/sharer.php?u=" },
     { name: "x",        url: "https://x.com/intent/post?url=" },
     { name: "telegram", url: "https://t.me/share/url?url=" },
