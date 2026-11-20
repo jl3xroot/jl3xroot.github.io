@@ -23,5 +23,3 @@ Mas não basta ligar um cabo do ponto A ao ponto B. Essa estrutura cruza contine
 Vivemos em um mundo hiperconectado e dependente dessa engenharia invisível. A tecnologia é uma ferramenta extraordinária quando bem utilizada, mas também cobra seu preço na nossa atenção e saúde mental.
 
 Por isso, enquanto exploramos esse universo digital por aqui, fica o lembrete: beba água, exercite-se, crie hábitos longe das telas e aproveite quem está ao seu lado. A vida real acontece agora.
-
-Onde você pretende publicar esse texto? (LinkedIn, Instagram, blog próprio?) Dependendo da plataforma, dá para ajustar ainda mais o tamanho dos blocos e o fechamento para gerar comentários.
