@@ -130,19 +130,16 @@ const rssHref = getAssetPath("rss.xml");
         >
           <span class="bg-accent/80 inline-block h-2.5 w-2.5 rounded-full"
           ></span>
-          <span>tty1 — boot sequence</span>
+          <span>tty1 — session</span>
         </div>
 
         <p class="text-accent font-mono text-sm font-medium sm:text-base">
-          <span id="type-prompt"></span><span
-            id="cursor-prompt"
-            class="bg-accent ml-0.5 inline-block h-4 w-2 animate-pulse align-middle"
-          ></span>
+          <span>jl3x@netops:~$</span>
         </p>
 
         <p
           id="type-banner-wrap"
-          class="text-foreground mt-2 hidden font-mono text-xl font-bold tracking-tight sm:text-3xl"
+          class="text-foreground mt-2 font-mono text-xl font-bold tracking-tight sm:text-3xl"
         >
           <span id="type-banner"></span><span
             id="cursor-banner"
@@ -156,8 +153,7 @@ const rssHref = getAssetPath("rss.xml");
 
     <script is:inline>
       (function () {
-        const PROMPT_TEXT = "jl3x@netops:~$";
-        const BANNER_TEXT = ">_ jl3x | NetOps & Sec";
+        const COMMAND_TEXT = "root acess";
 
         let activeTimer = null;
         let hideTimer = null;
@@ -201,13 +197,9 @@ const rssHref = getAssetPath("rss.xml");
           clearAllTimers();
 
           const preloader = document.getElementById("netops-preloader");
-          const promptEl = document.getElementById("type-prompt");
-          const bannerWrap = document.getElementById("type-banner-wrap");
           const bannerEl = document.getElementById("type-banner");
-          const cursorPrompt = document.getElementById("cursor-prompt");
-          const cursorBanner = document.getElementById("cursor-banner");
 
-          if (!preloader || !promptEl || !bannerWrap || !bannerEl) return;
+          if (!preloader || !bannerEl) return;
 
           const reducedMotion = window.matchMedia(
             "(prefers-reduced-motion: reduce)"
@@ -218,18 +210,10 @@ const rssHref = getAssetPath("rss.xml");
             "opacity-0",
             "pointer-events-none"
           );
-          promptEl.textContent = "";
           bannerEl.textContent = "";
-          bannerWrap.classList.add("hidden");
-          cursorPrompt?.classList.remove("hidden");
-          cursorBanner?.classList.add("hidden");
 
           if (reducedMotion) {
-            promptEl.textContent = PROMPT_TEXT;
-            bannerWrap.classList.remove("hidden");
-            bannerEl.textContent = BANNER_TEXT;
-            cursorPrompt?.classList.add("hidden");
-            cursorBanner?.classList.remove("hidden");
+            bannerEl.textContent = COMMAND_TEXT;
             activeTimer = setTimeout(() => hidePreloader(preloader), 250);
             return;
           }
@@ -237,22 +221,16 @@ const rssHref = getAssetPath("rss.xml");
           safetyTimer = setTimeout(() => {
             clearAllTimers();
             hidePreloader(preloader);
-          }, 4000);
+          }, 3500);
 
-          typeString(promptEl, PROMPT_TEXT, 55, () => {
-            activeTimer = setTimeout(() => {
-              cursorPrompt?.classList.add("hidden");
-              bannerWrap.classList.remove("hidden");
-              cursorBanner?.classList.remove("hidden");
-
-              typeString(bannerEl, BANNER_TEXT, 45, () => {
-                activeTimer = setTimeout(() => {
-                  if (safetyTimer) clearTimeout(safetyTimer);
-                  hidePreloader(preloader);
-                }, 450);
-              });
-            }, 220);
-          });
+          activeTimer = setTimeout(() => {
+            typeString(bannerEl, COMMAND_TEXT, 55, () => {
+              activeTimer = setTimeout(() => {
+                if (safetyTimer) clearTimeout(safetyTimer);
+                hidePreloader(preloader);
+              }, 450);
+            });
+          }, 200);
         }
 
         document.addEventListener("astro:page-load", runPreloader);
