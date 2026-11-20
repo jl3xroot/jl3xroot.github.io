@@ -23,7 +23,6 @@ export default defineAstroPaperConfig({
     showBackButton: true,
     editPost: {
       enabled: false,
-      url: "https://github.com/jl3xroot/jl3xroot.github.io/edit/main/",
     },
     search: "pagefind",
     toc: true,
